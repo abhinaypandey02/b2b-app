@@ -20,6 +20,9 @@ const App = () => {
   }
   useEffect(() => {
     loadFCM()
+    messaging().subscribeToTopic("all").then(()=>{
+      console.log("Subscribed to all")
+    })
   }, [])
   return (
     <SafeAreaView style={{ flex: 1 }}>

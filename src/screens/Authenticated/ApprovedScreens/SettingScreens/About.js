@@ -13,7 +13,12 @@ const About = () => {
   return (
     <>
       <Header title="About Us" />
-      <Container></Container>
+      <Container>
+          <Text style={{margin:15}}>
+              <Text style={{fontWeight:"bold",fontSize:20}}>Freshtables is Farm to Door fresh vegetables delivery.</Text>{"\n"}
+              We grow and procure vegetables from local farms and deliver them to urban areas like Home & Retail outlets, Businesses, etc.
+          </Text>
+      </Container>
     </>
   );
 };

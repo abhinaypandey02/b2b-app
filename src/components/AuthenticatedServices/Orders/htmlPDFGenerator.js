@@ -167,6 +167,14 @@ export const htmlString = (props) => {
               : props.price
           }</p>
         </div>
+        <div style="margin: 25px 20px 10px">
+             <h4 style="font-weight: bold">Terms & Conditions</h4>
+             <ul>
+             <li>You can either make an online payment or pay cash at the time of delivery</li>
+             <li>Any damaged items can be returned at the time of delivery</li>
+             <li>Returns are not accepted once delivery is confirmed and acknowledged</li>
+</ul>
+</div>
       </div>
     </div>
   </body>
