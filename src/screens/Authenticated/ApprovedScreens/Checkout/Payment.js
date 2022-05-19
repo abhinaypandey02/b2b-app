@@ -98,7 +98,7 @@ const Payment = ({ navigation, route }) => {
       console.log("selectedshippingSlot loaded ", selectedshippingSlot);
     }
   }, [selectedshippingSlot])
-  fetchShippingSlots = () => {
+  const fetchShippingSlots = () => {
     database()
       .ref('/shippingTimes')
       .once('value')
@@ -145,6 +145,7 @@ const Payment = ({ navigation, route }) => {
               onPress={() => {
                 Order("COD");
               }}
+              disabled={loading}
               style={{ margin: 5, width: "90%", alignSelf: "center" }}
               mode="contained"
               color="#000"
