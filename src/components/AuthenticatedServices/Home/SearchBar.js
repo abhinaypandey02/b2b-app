@@ -1,9 +1,12 @@
 import React from "react";
 import { Searchbar } from "react-native-paper";
 
-const SearchBarComponent = ({ searchQuery, onChangeSearch, InputRef }) => {
+const SearchBarComponent = ({ searchQuery, onChangeSearch, InputRef,onBlur, onFocus }) => {
   return (
     <Searchbar
+        onPressIn={onFocus}
+        onFocus={onFocus}
+        onBlur={onBlur}
       ref={InputRef}
       style={{ margin: 5 }}
       placeholder="Search"

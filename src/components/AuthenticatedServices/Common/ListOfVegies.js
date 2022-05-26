@@ -10,7 +10,7 @@ const Container = styled.View`
   flex: 1;
 `;
 
-const ListOfVegies = ({ data }) => {
+const ListOfVegies = ({ data,keyboardOn }) => {
   const [list, _setList] = React.useState([...data]);
   React.useEffect(() => {
     _setList([...data].sort((a, b) => a.productName - b.productName));
@@ -21,7 +21,7 @@ const ListOfVegies = ({ data }) => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ width: width, paddingBottom: 100 }}
       renderItem={({ item, index }) =>
-        !item.hide ? <VegetableCard {...item} /> : <></>
+        !item.hide ? <VegetableCard keyboardOn={keyboardOn} {...item} /> : <></>
       }
       data={list}
       keyExtractor={(item) => item.productName}
