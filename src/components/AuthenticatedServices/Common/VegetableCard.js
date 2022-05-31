@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/native";
-import {Dimensions, TouchableWithoutFeedback, TextInput, Keyboard, View, Text} from "react-native";
+import {Dimensions, Text, TextInput, TouchableWithoutFeedback, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import {actions} from "../../../redux/CartAndOrders";
 import {theme} from "../../../config/themeFile";
-import {useKeyboardState} from "../../../screens/Authenticated/useKeyboardState";
+
 const {width} = Dimensions.get("screen");
 
 const Container = styled.View`
@@ -51,7 +51,7 @@ const VegetableCard = (props) => {
     const [quantity, _setQuantity] = useState({
         quantity: 0,
     });
-    const [localValue,setLocalValue]=useState(0);
+    const [localValue, setLocalValue] = useState('0');
     const Dispatch = useDispatch();
 
     const {productName, price, url, miniDescription} =
@@ -61,35 +61,46 @@ const VegetableCard = (props) => {
     }, [props]);
 
     useEffect(() => {
-        if(!props.keyboardOn) updateQuantity(localValue)
+        if (!props.keyboardOn) {
+            let num = parseInt(localValue);
+            if (isNaN(num)) {
+                num = -1;
+            }
+            updateQuantity(num)
+        }
     }, [props.keyboardOn]);
-    function updateQuantity(val){
+
+    function updateQuantity(val) {
+        if (val < 0 || val > 999) {
+            return;
+        }
         if (data.maxQuantity > val) {
             let newQuantity;
-            if (val >0&&val<data.minQuantity) {
-                if(val>quantity.quantity){
-                    newQuantity={
+            if (val > 0 && val < data.minQuantity) {
+                if (val > quantity.quantity) {
+                    newQuantity = {
                         label: `${parseInt(data.minQuantity)}${data.prefix}`,
                         quantity: parseInt(data.minQuantity),
                     };
                 } else {
-                    newQuantity={
+                    newQuantity = {
                         label: `0${data.prefix}`,
                         quantity: 0,
                     };
                 }
 
             } else {
-                newQuantity={
+                newQuantity = {
                     label: `${val}${data.prefix}`,
                     quantity: val,
                 };
             }
             // console.log(newQuantity)
             _setQuantity(newQuantity);
-            setLocalValue(newQuantity.quantity)
+            setLocalValue(newQuantity.quantity.toString())
         }
     }
+
     return (
         <Container
             style={{
@@ -147,19 +158,21 @@ const VegetableCard = (props) => {
                 <>
                     <View style={{flexDirection: "row", alignItems: "center"}}>
                         <AntDesign
-                            onPress={() => updateQuantity(quantity.quantity-1)}
+                            onPress={() => updateQuantity(quantity.quantity - 1)}
                             name="minuscircle"
                             size={24}
                         />
                         <TextInput keyboardType="numeric" onChangeText={(v)=>{
-                            const num=parseInt(v);
-                            if(!isNaN(num)){
-                                setLocalValue(num);
+                            if(v.length>3) return;
+                            for(let i=0;i<v.length;i+=1){
+                                if(v[i]<'0'||v[i]>'9') return;
                             }
-                        }} defaultValue={localValue.toString()} style={{fontSize: 20, marginHorizontal: 10}}/>
+                            setLocalValue(v)
+                        }} value={localValue}
+                                   style={{fontSize: 20, marginHorizontal: 10}}/>
 
                         <MaterialIcons
-                            onPress={() => updateQuantity(quantity.quantity+1)}
+                            onPress={() => updateQuantity(quantity.quantity + 1)}
                             name="add-circle-outline"
                             size={30}
                         />
